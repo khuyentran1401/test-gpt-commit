@@ -35,7 +35,7 @@ class Location(BaseModel):
     data_raw: str = "data/raw/iris.csv"
     data_process: str = "data/processed/xy.pkl"
     data_final: str = "data/final/predictions.pkl"
-    model: str = "models/svc.pkl"
+    model: str = "models/tree.pkl"
     input_notebook: str = "notebooks/analyze_results.ipynb"
     output_notebook: str = "notebooks/results.ipynb"
 
@@ -55,8 +55,9 @@ class ProcessConfig(BaseModel):
 class ModelParams(BaseModel):
     """Specify the parameters of the `train` flow"""
 
-    C: List[float] = [0.1, 1, 10, 100, 1000]
-    gamma: List[float] = [1, 0.1, 0.01, 0.001, 0.0001]
+    max_depth: List[int] = [1, 2, 3, 4, 5]
+    min_samples_split: List[int] = [2, 5, 10, 20]
+    min_samples_leaf: List[int] = [1, 2, 5, 10]
 
     _validated_fields = validator("*", allow_reuse=True, each_item=True)(
         must_be_non_negative

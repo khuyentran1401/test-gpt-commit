@@ -4,7 +4,7 @@ import numpy as np
 import pandas as pd
 from prefect import flow, task
 from sklearn.model_selection import GridSearchCV
-from sklearn.svm import SVC
+from sklearn.tree import DecisionTreeClassifier
 
 from config import Location, ModelParams
 
@@ -36,7 +36,9 @@ def train_model(
     y_train : pd.Series
         Label for training
     """
-    grid = GridSearchCV(SVC(), model_params.dict(), refit=True, verbose=3)
+    grid = GridSearchCV(
+        DecisionTreeClassifier(), model_params.dict(), refit=True, verbose=3
+    )
     grid.fit(X_train, y_train)
     return grid
 
